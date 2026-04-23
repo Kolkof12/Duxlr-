@@ -3,177 +3,225 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aegis Finance | محاكي التحويل المالي</title>
+    <title>Duxlr | Financial Ecosystem</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
-        .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        .gradient-text {
-            background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .neon-border {
-            box-shadow: 0 0 15px rgba(79, 172, 254, 0.4);
-        }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; background: #080a0f; color: #e2e8f0; overflow-x: hidden; }
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .gradient-text { background: linear-gradient(135deg, #3b82f6 0%, #2dd4bf 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .card-glow { box-shadow: 0 0 30px rgba(59, 130, 246, 0.2); transition: 0.5s; }
+        .card-glow:hover { transform: translateY(-10px) rotateX(5deg); box-shadow: 0 0 50px rgba(59, 130, 246, 0.4); }
+        .neo-btn { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
+        .neo-btn:active { scale: 0.95; }
+        #login-overlay { transition: opacity 0.8s ease-in-out; }
     </style>
 </head>
-<body class="bg-[#0b0e14] text-gray-200 font-sans min-h-screen">
+<body>
 
-    <nav class="p-6 border-b border-gray-800 flex justify-between items-center">
-        <h1 class="text-2xl font-bold gradient-text tracking-wider">AEGIS <span class="text-white text-sm font-light italic">FINANCE</span></h1>
-        <div class="flex items-center gap-4">
-            <span id="status" class="text-xs bg-green-500/20 text-green-400 px-3 py-1 rounded-full border border-green-500/30">متصل (محاكاة)</span>
-            <i class="fas fa-user-circle text-2xl text-gray-400"></i>
+    <div id="login-overlay" class="fixed inset-0 z-[100] bg-[#080a0f] flex items-center justify-center p-4">
+        <div class="glass w-full max-w-md p-10 rounded-[2.5rem] shadow-2xl text-center">
+            <h1 class="text-4xl font-black mb-2 tracking-tighter"><span class="gradient-text">DUX</span>LR</h1>
+            <p class="text-gray-500 text-xs uppercase tracking-[0.3em] mb-10">Secure Gateway</p>
+            
+            <div class="space-y-4">
+                <input type="text" id="user-name" placeholder="اسم المستخدم" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 outline-none focus:border-blue-500 focus:bg-white/10 transition-all">
+                <input type="password" placeholder="كلمة المرور" class="w-full bg-white/5 border border-white/10 rounded-2xl p-4 outline-none focus:border-blue-500 focus:bg-white/10 transition-all">
+                <button onclick="login()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-2xl neo-btn shadow-lg shadow-blue-500/20">
+                    دخول للمنصة <i class="fas fa-chevron-left mr-2 text-sm"></i>
+                </button>
+            </div>
+            <p class="mt-8 text-[10px] text-gray-600">نظام مشفر بالكامل ببروتوكول Aegis-V18</p>
         </div>
-    </nav>
+    </div>
 
-    <main class="max-w-6xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-8">
-        
-        <div class="lg:col-span-1 space-y-6">
-            <div class="relative h-56 w-full rounded-2xl bg-gradient-to-br from-blue-600 to-indigo-900 p-6 overflow-hidden neon-border shadow-2xl">
-                <div class="absolute top-0 right-0 p-4 opacity-20"><i class="fas fa-wifi fa-2xl rotate-90"></i></div>
-                <div class="flex justify-between items-start mb-12">
-                    <span class="font-medium tracking-widest text-lg uppercase">Virtual Card</span>
-                    <i class="fab fa-cc-visa text-4xl"></i>
+    <div id="main-content" class="hidden opacity-0 transition-opacity duration-1000">
+        <nav class="p-6 border-b border-white/5 flex justify-between items-center max-w-7xl mx-auto w-full">
+            <div class="text-xl font-black tracking-tighter uppercase"><span class="gradient-text">Dux</span>lr</div>
+            <div class="flex items-center gap-6">
+                <div class="hidden md:block text-right">
+                    <p id="display-name" class="text-sm font-bold">User</p>
+                    <p class="text-[10px] text-green-400 flex items-center justify-end">● <span class="text-gray-500 mr-1 italic text-[8px]">Active Node</span></p>
                 </div>
-                <div class="text-2xl font-mono tracking-widest mb-4">**** **** **** 8842</div>
-                <div class="flex justify-between items-end">
-                    <div>
-                        <p class="text-[10px] uppercase opacity-60">Card Holder</p>
-                        <p class="text-sm font-semibold tracking-wide">B. YASSER</p>
-                    </div>
-                    <div>
-                        <p class="text-[10px] uppercase opacity-60">Expiry</p>
-                        <p class="text-sm font-semibold">12/28</p>
-                    </div>
-                </div>
+                <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-blue-600 to-emerald-400 flex items-center justify-center font-bold">Y</div>
             </div>
+        </nav>
 
-            <div class="glass-card rounded-2xl p-6 space-y-4">
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-400">رصيد الدولار</span>
-                    <span id="usd-balance" class="text-xl font-bold text-white">$2,500.00</span>
-                </div>
-                <hr class="border-gray-800">
-                <div class="flex justify-between items-center">
-                    <span class="text-gray-400">رصيد الدينار</span>
-                    <span id="dzd-balance" class="text-xl font-bold text-white">335,000.00 DA</span>
-                </div>
-            </div>
-        </div>
-
-        <div class="lg:col-span-2 space-y-6">
-            <div class="glass-card rounded-2xl p-8">
-                <h2 class="text-xl font-bold mb-6 flex items-center gap-2">
-                    <i class="fas fa-exchange-alt text-blue-400"></i> محول العملات السريع
-                </h2>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center">
-                    <div class="space-y-2">
-                        <label class="text-xs text-gray-500 mr-2">من</label>
-                        <div class="bg-black/40 p-4 rounded-xl flex items-center border border-gray-800">
-                            <input id="from-amount" type="number" placeholder="0.00" class="bg-transparent w-full outline-none text-xl font-bold">
-                            <select id="from-currency" class="bg-transparent outline-none font-bold text-blue-400 cursor-pointer">
-                                <option value="USD">USD</option>
-                                <option value="DZD">DZD</option>
-                            </select>
-                        </div>
+        <main class="max-w-7xl mx-auto p-6 grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <div class="lg:col-span-4 space-y-8">
+                <div class="relative h-64 w-full rounded-[2rem] bg-gradient-to-br from-[#1e40af] to-[#7c3aed] p-8 overflow-hidden card-glow cursor-pointer">
+                    <div class="flex justify-between items-start">
+                        <i class="fas fa-microchip text-4xl text-yellow-400/80"></i>
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" class="w-16 opacity-80">
                     </div>
-
-                    <div class="space-y-2 text-left md:text-right">
-                        <label class="text-xs text-gray-500 ml-2">إلى (تقديري)</label>
-                        <div class="bg-black/40 p-4 rounded-xl flex items-center border border-gray-800">
-                            <input id="to-amount" type="text" readonly placeholder="0.00" class="bg-transparent w-full outline-none text-xl font-bold text-green-400">
-                            <span id="target-label" class="font-bold text-gray-400">DZD</span>
-                        </div>
+                    <div class="mt-10">
+                        <p class="text-[10px] uppercase tracking-widest opacity-60 mb-1">Total Balance</p>
+                        <h2 id="total-val" class="text-3xl font-bold">$12,450.00</h2>
+                    </div>
+                    <div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
+                        <p class="font-mono tracking-[0.3em] text-sm">**** **** **** 0012</p>
+                        <p class="text-[10px] font-bold">04/29</p>
                     </div>
                 </div>
 
-                <div class="mt-8">
-                    <button onclick="processExchange()" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-bold py-4 rounded-xl transition-all active:scale-95 flex justify-center items-center gap-3">
-                        <i class="fas fa-bolt"></i> تنفيذ عملية التحويل فوراً
-                    </button>
-                    <p class="text-center text-[10px] text-gray-600 mt-4 italic text-right">* سعر الصرف الحالي: 1 USD = 134.50 DZD (محاكاة لحظية)</p>
-                </div>
-            </div>
-
-            <div class="glass-card rounded-2xl p-6 overflow-hidden">
-                <h3 class="text-sm font-bold text-gray-400 mb-4 uppercase tracking-widest">آخر العمليات</h3>
-                <div id="history-list" class="space-y-4">
-                    <div class="flex justify-between items-center text-sm opacity-60">
+                <div class="glass rounded-[2rem] p-6 space-y-6">
+                    <div class="flex justify-between">
+                        <span class="text-gray-400 text-sm font-medium">العملات المتاحة</span>
+                        <i class="fas fa-ellipsis-h text-gray-600"></i>
+                    </div>
+                    <div class="flex justify-between items-center bg-white/5 p-4 rounded-2xl">
                         <div class="flex items-center gap-3">
-                            <i class="fas fa-arrow-down text-green-500"></i>
-                            <span>تحويل USD إلى DZD</span>
+                            <div class="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center text-blue-400 text-xs">USD</div>
+                            <span class="text-sm font-bold">Dollar</span>
                         </div>
-                        <span>+ 13,450.00 DA</span>
+                        <span id="usd-bal" class="text-blue-400 font-mono">$2,500.00</span>
+                    </div>
+                    <div class="flex justify-between items-center bg-white/5 p-4 rounded-2xl">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center text-emerald-400 text-[10px]">DZD</div>
+                            <span class="text-sm font-bold">Dinar</span>
+                        </div>
+                        <span id="dzd-bal" class="text-emerald-400 font-mono text-sm">335,000.00 DA</span>
                     </div>
                 </div>
             </div>
-        </div>
-    </main>
+
+            <div class="lg:col-span-8 space-y-8">
+                <div class="glass rounded-[2.5rem] p-8 relative overflow-hidden">
+                    <div class="absolute -top-24 -right-24 w-64 h-64 bg-blue-600/10 rounded-full blur-3xl"></div>
+                    <h3 class="text-xl font-bold mb-8 flex items-center gap-3"><i class="fas fa-sync text-blue-500"></i> نظام التحويل الذكي</h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 relative z-10">
+                        <div class="space-y-3">
+                            <label class="text-[10px] uppercase font-bold text-gray-500 mr-2">إرسال</label>
+                            <div class="bg-black/40 border border-white/5 p-5 rounded-3xl flex items-center focus-within:border-blue-500/50 transition-all">
+                                <input type="number" id="input-val" placeholder="0.00" class="bg-transparent w-full outline-none text-2xl font-bold text-white">
+                                <select id="curr-select" class="bg-[#111] text-xs p-2 rounded-lg outline-none font-bold">
+                                    <option value="USD">USD</option>
+                                    <option value="DZD">DZD</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="space-y-3">
+                            <label class="text-[10px] uppercase font-bold text-gray-500 mr-2">استلام (تقديري)</label>
+                            <div class="bg-black/20 border border-white/5 p-5 rounded-3xl flex items-center italic">
+                                <input type="text" id="result-val" readonly placeholder="0.00" class="bg-transparent w-full outline-none text-2xl font-bold text-gray-500">
+                                <span id="target-unit" class="text-xs font-bold text-gray-600">DZD</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="executeTransfer()" class="w-full mt-10 bg-white text-black font-black py-5 rounded-3xl neo-btn hover:bg-blue-500 hover:text-white flex justify-center items-center gap-3">
+                        تأكيد العملية <i class="fas fa-paper-plane text-sm"></i>
+                    </button>
+                </div>
+
+                <div class="glass rounded-[2rem] p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h4 class="text-sm font-bold uppercase tracking-tighter text-gray-400 italic">السجل المالي الفوري</h4>
+                        <span class="text-[10px] bg-white/5 px-2 py-1 rounded">Last 24h</span>
+                    </div>
+                    <div id="log-list" class="space-y-4">
+                        <div class="flex justify-between items-center p-3 hover:bg-white/5 rounded-xl transition-all">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 rounded-full bg-blue-500/10 flex items-center justify-center"><i class="fas fa-plus text-xs text-blue-500"></i></div>
+                                <div><p class="text-xs font-bold">تم شحن المحفظة</p><p class="text-[9px] text-gray-500">Binance External Transfer</p></div>
+                            </div>
+                            <span class="text-green-400 font-mono text-sm">+$500.00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 
     <script>
+        // النظام البرمجي لـ Duxlr
+        let usd = 2500.0;
+        let dzd = 335000.0;
         const rate = 134.50;
-        let usdBalance = 2500.00;
-        let dzdBalance = 335000.00;
 
-        const fromInput = document.getElementById('from-amount');
-        const toInput = document.getElementById('to-amount');
-        const fromCurrency = document.getElementById('from-currency');
-        const targetLabel = document.getElementById('target-label');
+        function login() {
+            const user = document.getElementById('user-name').value || "Guest User";
+            document.getElementById('display-name').innerText = user;
+            const overlay = document.getElementById('login-overlay');
+            const main = document.getElementById('main-content');
+            
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+                main.classList.remove('hidden');
+                setTimeout(() => main.style.opacity = '1', 50);
+                showToast("مرحباً بك في Duxlr Pro");
+            }, 800);
+        }
 
-        fromInput.addEventListener('input', () => {
-            const amount = parseFloat(fromInput.value) || 0;
-            if(fromCurrency.value === 'USD') {
-                toInput.value = (amount * rate).toLocaleString();
-                targetLabel.innerText = 'DZD';
+        // معالجة المدخلات
+        const inField = document.getElementById('input-val');
+        const resField = document.getElementById('result-val');
+        const selector = document.getElementById('curr-select');
+        const unit = document.getElementById('target-unit');
+
+        inField.addEventListener('input', () => {
+            let val = parseFloat(inField.value) || 0;
+            if(selector.value === 'USD') {
+                resField.value = (val * rate).toFixed(2);
+                unit.innerText = "DZD";
             } else {
-                toInput.value = (amount / rate).toLocaleString();
-                targetLabel.innerText = 'USD';
+                resField.value = (val / rate).toFixed(4);
+                unit.innerText = "USD";
             }
         });
 
-        fromCurrency.addEventListener('change', () => fromInput.dispatchEvent(new Event('input')));
+        selector.addEventListener('change', () => inField.dispatchEvent(new Event('input')));
 
-        function processExchange() {
-            const amount = parseFloat(fromInput.value) || 0;
-            if(amount <= 0) return alert("يرجى إدخال مبلغ صحيح");
+        function executeTransfer() {
+            let val = parseFloat(inField.value) || 0;
+            if(val <= 0) return showToast("أدخل مبلغاً صحيحاً!");
 
-            if(fromCurrency.value === 'USD') {
-                if(amount > usdBalance) return alert("رصيد USD غير كافٍ");
-                usdBalance -= amount;
-                dzdBalance += amount * rate;
+            if(selector.value === 'USD') {
+                if(val > usd) return showToast("رصيد دولار غير كافٍ");
+                usd -= val; dzd += (val * rate);
+                addLog(`تحويل ${val}$ إلى دينار`, `+${(val * rate).toFixed(2)} DA`);
             } else {
-                if(amount > dzdBalance) return alert("رصيد DZD غير كافٍ");
-                dzdBalance -= amount;
-                usdBalance += amount / rate;
+                if(val > dzd) return showToast("رصيد دينار غير كافٍ");
+                dzd -= val; usd += (val / rate);
+                addLog(`تحويل ${val} DA إلى دولار`, `+$${(val / rate).toFixed(2)}`);
             }
-
-            updateUI(amount);
+            
+            updateUI();
+            showToast("تمت المعالجة فورياً!");
+            inField.value = ""; resField.value = "";
         }
 
-        function updateUI(amount) {
-            document.getElementById('usd-balance').innerText = `$${usdBalance.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
-            document.getElementById('dzd-balance').innerText = `${dzdBalance.toLocaleString(undefined, {minimumFractionDigits: 2})} DA`;
-            
-            const history = document.getElementById('history-list');
-            const newEntry = document.createElement('div');
-            newEntry.className = "flex justify-between items-center text-sm animate-pulse";
-            newEntry.innerHTML = `
-                <div class="flex items-center gap-3">
-                    <i class="fas fa-check-circle text-blue-400"></i>
-                    <span>تم التحويل بنجاح</span>
+        function updateUI() {
+            document.getElementById('usd-bal').innerText = `$${usd.toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+            document.getElementById('dzd-bal').innerText = `${dzd.toLocaleString(undefined, {minimumFractionDigits: 2})} DA`;
+            document.getElementById('total-val').innerText = `$${(usd + (dzd/rate)).toLocaleString(undefined, {minimumFractionDigits: 2})}`;
+        }
+
+        function showToast(msg) {
+            const t = document.createElement('div');
+            t.className = "fixed bottom-10 left-1/2 -translate-x-1/2 bg-white text-black px-8 py-4 rounded-2xl font-bold shadow-2xl z-[200] animate-bounce text-sm border border-blue-500";
+            t.innerHTML = `<i class="fas fa-shield-alt mr-2 text-blue-600"></i> ${msg}`;
+            document.body.appendChild(t);
+            setTimeout(() => t.remove(), 3000);
+        }
+
+        function addLog(title, amount) {
+            const list = document.getElementById('log-list');
+            const item = document.createElement('div');
+            item.className = "flex justify-between items-center p-3 bg-white/5 rounded-xl animate-pulse";
+            item.innerHTML = `
+                <div class="flex items-center gap-4">
+                    <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center"><i class="fas fa-exchange-alt text-xs text-blue-400"></i></div>
+                    <div><p class="text-xs font-bold">${title}</p><p class="text-[9px] text-gray-500">Duxlr Internal Clearing</p></div>
                 </div>
-                <span class="text-white">${amount} ${fromCurrency.value}</span>
+                <span class="text-white font-mono text-sm">${amount}</span>
             `;
-            history.prepend(newEntry);
-            fromInput.value = "";
-            toInput.value = "";
+            list.prepend(item);
         }
     </script>
 </body>
